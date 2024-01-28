@@ -1,39 +1,43 @@
-## upewnienie się czy kubectl wykorzystuje właściwy context
-## kubectl config get-context
+### upewnienie się czy kubectl wykorzystuje właściwy context
+###### kubectl config get-context
 
 
 
-## ustawienie context minikube na namespace argocd
-## kubectl config set-context --current --namespace=argocd
+### ustawienie context minikube na namespace argocd
+###### kubectl config set-context --current --namespace=argocd
 
 
 
-## uruchomienie wszystkich potrzebnych repo
-## argocd app create zad2-app --repo https://github.com/Redeek/config_repo --path . --dest-server https://kubernetes.default.svc --dest-namespace default
+### uruchomienie wszystkich potrzebnych repo
+###### argocd app create zad2-app --repo https://github.com/Redeek/config_repo --path . --dest-server https://kubernetes.default.svc --dest-namespace default
 
 
 
-## sprawdzenie czy argocd widzi uruchomioną aplikację
-## argocd app list
+### sprawdzenie czy argocd widzi uruchomioną aplikację
+###### argocd app list
+```
 NAME             CLUSTER                         NAMESPACE  PROJECT  STATUS     HEALTH   SYNCPOLICY  CONDITIONS  REPO                                   PATH  TARGET
 argocd/zad2-app  https://kubernetes.default.svc  default    default  OutOfSync  Missing  <none>      <none>      https://github.com/Redeek/config_repo  .~
+```
 
 
-
-## Wylisotwanie dostępnych workflow
-## gh workflow list
+### Wylisotwanie dostępnych workflow
+###### gh workflow list
+```
 Zad2 - GHAction example solution  active  83860872    
+```
 
-
-## uruchomienie workflow o podanym numerze
-## gh workflow run 83860872
+### uruchomienie workflow o podanym numerze
+###### gh workflow run 83860872
+```
 ✓ Created workflow_dispatch event for gha_zad2.yml at main
 
 To see runs for this workflow, try: gh run list --workflow=gha_zad2.yml
+```
 
-
-## Obejrzenie statusu workflow
-## gh run watch
+### Obejrzenie statusu workflow
+###### gh run watch
+```
 ? Select a workflow run * Update index.html, Zad2 - GHAction example solution (main) 8s ago
 
 
@@ -72,11 +76,11 @@ Build, tag and push Docker image to DockerHub: .github#1
 
 
 ✓ Run Zad2 - GHAction example solution (7682520603) completed with 'success'
+```
 
-
-## Sprawdzenie zmian w aplikacji
-## argocd app diff zad2-app --refresh
-
+### Sprawdzenie zmian w aplikacji
+###### argocd app diff zad2-app --refresh
+```
 ===== /ConfigMap default/zad2-cm ======
 4c4
 <     </h1>\n<p> \nImage: \nredek/zad2:sha-44a3a6c\n</p>\n\n</body>\n</html>"
@@ -88,10 +92,11 @@ Build, tag and push Docker image to DockerHub: .github#1
 <       - image: redek/zad2:sha-44a3a6c
 ---
 >       - image: redek/zad2:sha-0725a75
+```
 
-
-## Sprawdzenie informacji oraz statusów plików
-## argocd app get zad2-app
+### Sprawdzenie informacji oraz statusów plików
+###### argocd app get zad2-app
+```
 Name:               argocd/zad2-app
 Project:            default
 Server:             https://kubernetes.default.svc
@@ -110,10 +115,11 @@ GROUP              KIND        NAMESPACE  NAME          STATUS     HEALTH    HOO
                    Service     default    zad2-service  Synced     Healthy         service/zad2-service created
 apps               Deployment  default    zad2-app      OutOfSync  Degraded        deployment.apps/zad2-app created
 networking.k8s.io  Ingress     default    zad2-ingress  Synced     Healthy         ingress.networking.k8s.io/zad2-ingress created
+```
 
-
-## Synchronizacja danych aplikacji zad2-app
-## argocd app sync zad2-app
+### Synchronizacja danych aplikacji zad2-app
+###### argocd app sync zad2-app
+```
 TIMESTAMP                  GROUP                    KIND   NAMESPACE                  NAME    STATUS    HEALTH         HOOK  MESSAGE
 2024-01-28T02:36:58+01:00                      ConfigMap     default               zad2-cm  OutOfSync                        
 2024-01-28T02:36:58+01:00                        Service     default          zad2-service    Synced   Healthy               
@@ -152,21 +158,24 @@ GROUP              KIND        NAMESPACE  NAME          STATUS  HEALTH       HOO
                    Service     default    zad2-service  Synced  Healthy            service/zad2-service configured
 apps               Deployment  default    zad2-app      Synced  Progressing        deployment.apps/zad2-app configured
 networking.k8s.io  Ingress     default    zad2-ingress  Synced  Healthy            ingress.networking.k8s.io/zad2-ingress unchanged
+```
 
-## Otagowanie aplikacji własnym tagiem
-## git tag -a "v1.1.1" -m "wersja ArgoCD"
-## Spushowanie zmian (nowy tag) za pomocą gita
-## git push origin v1.1.1
+### Otagowanie aplikacji własnym tagiem
+###### git tag -a "v1.1.1" -m "wersja ArgoCD"
+### Spushowanie zmian (nowy tag) za pomocą gita
+###### git push origin v1.1.1
+```
 Enumerating objects: 1, done.
 Counting objects: 100% (1/1), done.
 Writing objects: 100% (1/1), 162 bytes | 162.00 KiB/s, done.
 Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
 To https://github.com/Redeek/source_repo.git
  * [new tag]         v1.1.1 -> v1.1.1
+```
 
-
-## Sprawdzenie workflow
-## gh run watch
+### Sprawdzenie workflow
+###### gh run watch
+```
 ? Select a workflow run * Update index.html, Zad2 - GHAction example solution (v1.1.1) 13s ago
 
 
@@ -225,12 +234,12 @@ Build, tag and push Docker image to DockerHub: .github#1
 
 
 ✓ Run Zad2 - GHAction example solution (7682569185) completed with 'success'
+```
 
 
-
-## Sprawdzenie zmian w aplikacji zad2-app
-## argocd app diff zad2-app --refresh
-
+### Sprawdzenie zmian w aplikacji zad2-app
+###### argocd app diff zad2-app --refresh
+```
 ===== /ConfigMap default/zad2-cm ======
 4c4
 <     </h1>\n<p> \nImage: \nredek/zad2:sha-0725a75\n</p>\n\n</body>\n</html>"
@@ -242,11 +251,12 @@ Build, tag and push Docker image to DockerHub: .github#1
 <       - image: redek/zad2:sha-0725a75
 ---
 >       - image: redek/zad2:1.1.1
+```
 
 
-
-## Synchronizacja danych
-## argocd app sync zad2-app
+### Synchronizacja danych
+###### argocd app sync zad2-app
+```
 TIMESTAMP                  GROUP                    KIND   NAMESPACE                  NAME    STATUS    HEALTH            HOOK  MESSAGE
 2024-01-28T02:43:58+01:00                      ConfigMap     default               zad2-cm  OutOfSync                           
 2024-01-28T02:43:58+01:00                        Service     default          zad2-service    Synced   Healthy                  
@@ -284,10 +294,11 @@ GROUP              KIND        NAMESPACE  NAME          STATUS  HEALTH       HOO
                    Service     default    zad2-service  Synced  Healthy            service/zad2-service configured
 apps               Deployment  default    zad2-app      Synced  Progressing        deployment.apps/zad2-app configured
 networking.k8s.io  Ingress     default    zad2-ingress  Synced  Healthy            ingress.networking.k8s.io/zad2-ingress unchanged
+```
 
 
-
-## Dodanie sekcji data do configmap ArgoCD by synchronizował dane co 2 sekundy
+### Dodanie sekcji data do configmap ArgoCD by synchronizował dane co 2 sekundy
+```
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -305,11 +316,11 @@ metadata:
 data:
   application.config: |
     autoSyncInterval: 2s
-
-## Od tego momentu nie potrzeba już wpisywać komendy "argocd app sync zad2-app" ponieważ jest to robione automatycznie przez operatora argoCD. Tak jak poniżej pokazano
-
+```
 
 
+### Od tego momentu nie potrzeba już wpisywać komendy "argocd app sync zad2-app" ponieważ jest to robione automatycznie przez operatora argoCD. Tak jak poniżej pokazano
+```
 gh workflow list
 Zad2 - GHAction example solution  active  83860872
 redek@redek:~/poprawka/source_repo$ gh workflow run 83860872
@@ -428,5 +439,5 @@ GROUP              KIND        NAMESPACE  NAME          STATUS  HEALTH    HOOK  
                    Service     default    zad2-service  Synced  Healthy         service/zad2-service configured
 apps               Deployment  default    zad2-app      Synced  Degraded        deployment.apps/zad2-app configured
 networking.k8s.io  Ingress     default    zad2-ingress  Synced  Healthy         ingress.networking.k8s.io/zad2-ingress unchanged
-
+```
 
